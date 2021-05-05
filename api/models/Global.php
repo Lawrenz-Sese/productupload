@@ -52,25 +52,25 @@
 
 //SELECT forms	
 
-public function select_forms ($table, $filter_data) {
+			public function select_forms ($table, $filter_data) {
 
-	$sql = "SELECT * FROM $table";
+			$sql = "SELECT * FROM $table";
 
-	if($filter_data != null){
-		$sql .=" WHERE form_id=$filter_data";
-	}
+			if($filter_data != null){
+				$sql .=" WHERE form_id=$filter_data";
+			}
 
-	$data = array(); $code = 0; $msg= ""; $remarks = "";
-	try {
-		if ($res = $this->pdo->query($sql)->fetchAll()) {
-			foreach ($res as $rec) { array_push($data, $rec);}
-			$res = null; $code = 200; $msg = "Successfully retrieved the requested records"; $remarks = "success";
+			$data = array(); $code = 0; $msg= ""; $remarks = "";
+			try {
+				if ($res = $this->pdo->query($sql)->fetchAll()) {
+					foreach ($res as $rec) { array_push($data, $rec);}
+					$res = null; $code = 200; $msg = "Successfully retrieved the requested records"; $remarks = "success";
+				}
+			} catch (\PDOException $e) {
+				$msg = $e->getMessage(); $code = 401; $remarks = "failed";
+			}
+			return $this->sendPayload($data, $remarks, $msg, $code);
 		}
-	} catch (\PDOException $e) {
-		$msg = $e->getMessage(); $code = 401; $remarks = "failed";
-	}
-	return $this->sendPayload($data, $remarks, $msg, $code);
-}
 //DELETE
 public function delete($table, $data){
 

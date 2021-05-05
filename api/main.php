@@ -15,17 +15,32 @@
 	switch($_SERVER['REQUEST_METHOD']) {
 		case 'POST':
 			switch($req[0]) {
-				
+				// PULL DATA OF accounts table
+				case 'accounts':
+					if(count($req)>1){
+						echo json_encode($gm->select_accounts('tbl_feedback_'.$req[0], $req[1]),JSON_PRETTY_PRINT);
+					} else {
+						echo json_encode($gm->select_accounts('tbl_feedback_'.$req[0], null),JSON_PRETTY_PRINT);
+					}
+				break;
+				// PULL DATA OF feedbacks table
+				case 'feedbacks':
+					if(count($req)>1){
+						echo json_encode($gm->select_feedbacks('tbl_feedback_'.$req[0], $req[1]),JSON_PRETTY_PRINT);
+					} else {
+						echo json_encode($gm->select_feedbacks('tbl_feedback_'.$req[0], null),JSON_PRETTY_PRINT);
+					}
+				break;
 				// PULL DATA of feedback forms and genform
 				case 'forms':
 					if(count($req)>1){
-					echo json_encode($gm->select_forms('tbl_feedback_'.$req[0], $req[1]),JSON_PRETTY_PRINT);
+						echo json_encode($gm->select_forms('tbl_feedback_'.$req[0], $req[1]),JSON_PRETTY_PRINT);
 					} else {
-					echo json_encode($gm->select_forms('tbl_feedback_'.$req[0], null),JSON_PRETTY_PRINT);
+						echo json_encode($gm->select_forms('tbl_feedback_'.$req[0], null),JSON_PRETTY_PRINT);
 					}
 				break;
 				// ADD form
-				case 'addProduct':
+				case 'addForms':
 					$d = json_decode(base64_decode(file_get_contents("php://input")));
 					echo json_encode($gm->add("tbl_feedback_forms", $d), JSON_PRETTY_PRINT);
 				break;
